@@ -1,0 +1,82 @@
+.canvas {
+  position: relative;
+  width: 1920px;
+  height: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: url("../assets/train/train_bg.svg") center/cover no-repeat;
+
+  --y-head: 1260px;
+  --y-cars: 1160px;
+  --gap: 30px;
+  --speed: 50s;
+}
+
+/* 전체 트랙 */
+.track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  gap: var(--gap);
+  width: max-content;
+  height: 100%;       /* ✅ 부모 높이 상속 */
+  align-items: flex-end;
+  z-index: 5;
+  animation: moveTrain var(--speed) linear infinite;
+}
+.canvas:hover .track {
+  animation-play-state: paused;
+}
+
+/* 한 세트 */
+.segment {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--gap);
+  position: relative;
+  height: 100%;
+  /* ✅ 절대좌표 대신 transform으로 Y 위치 조절 */
+  transform: translateY(calc(var(--y-cars) - 1200px));
+}
+
+/* 기관차 */
+.head {
+  width: 320px;
+  height: auto;
+  transform: translateY(calc(var(--y-head) - var(--y-cars))); /* 위로 248px */
+  margin-right: -37px;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 객차 버튼 */
+.carBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 280px;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 5;
+  transition: transform 0.2s ease;
+}
+.carBtn img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.carBtn:hover {
+  transform: translateY(-4px);
+}
+
+/* 기차가 왼쪽으로 무한 루프 이동 */
+@keyframes moveTrain {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
